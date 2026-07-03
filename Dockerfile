@@ -1,15 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# copiar todo el repo
 COPY . .
 
-# ir directo al folder correcto
-WORKDIR /src/INSTITUTO_C
+# BUSCAR EL PROYECTO AUTOMÁTICAMENTE
+RUN find . -name "*.csproj"
 
-# restore y publish desde adentro (SIN rutas raras)
-RUN dotnet restore
-RUN dotnet publish -c Release -o /app/publish
+# restore usando ruta explícita (la que ya sabemos)
+RUN dotnet restore INSTITUTO_C/INSTITUTO_C.csproj
+
+RUN dotnet publish INSTITUTO_C/INSTITUTO_C.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
