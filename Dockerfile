@@ -3,9 +3,8 @@ WORKDIR /src
 
 COPY . .
 
-# buscar el csproj desde raíz sin asumir subcarpetas
-RUN dotnet restore **/*.csproj
-RUN dotnet publish **/*.csproj -c Release -o /app/publish
+RUN dotnet restore ./INSTITUTO_C/INSTITUTO_C.csproj
+RUN dotnet publish ./INSTITUTO_C/INSTITUTO_C.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
@@ -13,4 +12,5 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "INSTITUTO_C.dll"]
